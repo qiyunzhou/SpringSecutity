@@ -13,6 +13,9 @@ import org.springframework.stereotype.Component;
 @NoArgsConstructor
 @Component
 public class UserDto {
+    public static final String SESSION_USER_KEY = "_user";
+
+    // 用户信息
     private String id;
     private String username;
     private String password;
