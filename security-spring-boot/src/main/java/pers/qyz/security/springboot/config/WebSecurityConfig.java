@@ -51,7 +51,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .successForwardUrl("/login-success")    // 自定义登录成功页面
                 .and()
                 .sessionManagement()
-                .sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED);  //设置会话
+                .sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED)  //设置会话
+                .and()
+                .logout()   //自定义退出
+                .logoutUrl("/logout")
+                .logoutSuccessUrl("/login‐view?logout");
 
     }
 }
