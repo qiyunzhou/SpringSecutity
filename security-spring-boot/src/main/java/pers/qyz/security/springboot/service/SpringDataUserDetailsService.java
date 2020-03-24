@@ -5,15 +5,17 @@ import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.stereotype.Service;
 import pers.qyz.security.springboot.dao.UserDao;
 import pers.qyz.security.springboot.model.UserDto;
 
 import java.util.List;
 
+@Service
 public class SpringDataUserDetailsService implements UserDetailsService {
 
     @Autowired
-    private UserDao userDao;
+    UserDao userDao;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
@@ -24,15 +26,11 @@ public class SpringDataUserDetailsService implements UserDetailsService {
         if (user == null) {
             return null;
         }
+
         //查询用户权限
         List<String> permissions = userDao.findPermissionsByUserId(user.getId());
         String[] permissionsArray = new String[permissions.size()];
         permissions.toArray(permissionsArray);
-
-        for (String s : permissionsArray) {
-            System.out.println("s = " + s);
-        }
-
         UserDetails userDetails = User.withUsername(user.getUsername()).password(user.getPassword()).authorities(permissionsArray).build();
         return userDetails;
     }

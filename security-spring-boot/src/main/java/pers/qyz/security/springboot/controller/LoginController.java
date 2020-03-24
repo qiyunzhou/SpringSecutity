@@ -1,5 +1,6 @@
 package pers.qyz.security.springboot.controller;
 
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -20,16 +21,21 @@ public class LoginController {
      *
      * @return
      */
+//    @Secured("IS_AUTHENTICATED_ANONYMOUSLY")  //可以匿名访问
+//    @PreAuthorize("isAnonymous()")    //可匿名访问
+    @PreAuthorize("hasAuthority('p1')") //拥有p1权限可访问
     @GetMapping(value = "/r/r1", produces = {"text/plain;charset=utf-8"})
     public String r1() {
         return getUsername()+" 访问资源1";
     }
 
     /**
-     * 测试资源1
+     * 测试资源2
      *
      * @return
      */
+//    @Secured("ROLE_TELLER") //需要有TELLER角色才能访问
+    @PreAuthorize("hasAnyAuthority('p1','p2')")
     @GetMapping(value = "/r/r2", produces = {"text/plain;charset=utf-8"})
     public String r2() {
         return getUsername()+" 访问资源2";
